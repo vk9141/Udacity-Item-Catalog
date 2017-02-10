@@ -1,0 +1,59 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+	<div class="row banner recipes">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>
+			{{ category.name }}
+			</h1>
+
+		</div>
+	</div>
+
+<div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+	<div class="row padding-top padding-bottom">
+		<div class="col-md-1"></div>
+		<div class="col-md-11 padding-none">
+			<a href="{{url_for('newRecipe', category_id = category.id )}}">
+				<button class="btn btn-default" id="new-recipes-item">
+					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add Recipe
+				</button>
+			</a>
+		</div>
+		<div class="col-md-7"></div>
+	</div>
+	
+	{% if recipes !=[] %}	
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+					{% for i in recipes %}
+							<div class="recipes-item">
+								<a href = "{{url_for('showRecipe', category_id=category.id, recipe_id=i.id)}}">
+									<h3>{{i.name}}</h3>
+									<p>{{i.description}}</p>
+								</a>
+								{% if user_id == i.user_id %}
+									<a href='{{url_for('editRecipe', category_id=category.id, recipe_id=i.id ) }}'>Edit</a> | 
+									<a href='{{url_for('deleteRecipe', category_id=category.id, recipe_id=i.id ) }}'>Delete</a>
+								{% endif %}
+							</div>
+					{% endfor %}
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<div class="row banner recipes">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>{{ item.name }}</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1 padding-top">
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type ="text" maxlength="50" class="form-control" name="name" value="{{item.name}}" readonly="readonly">
+
+					<label for="description">Description:</label>
+					<textarea class="form-control" maxlength="250" rows="2" name="description" readonly="readonly">{{item.description}}</textarea>
+
+					<label for="ingredients">Ingredients:</label>
+					<textarea class="form-control" rows="20" name="ingredients" readonly="readonly">{{item.ingredients}}</textarea>
+
+					<label for="instructions">Instructions:</label>
+					<textarea class="form-control" rows="20" name="instructions" readonly="readonly">{{item.instructions}}</textarea>
+
+					<hr></hr>
+
+					<a href = '{{url_for('showRecipes', category_id = item.category_id )}}'>
+						<button type="button" class="btn btn-default delete">
+						<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Back</button>
+					</a>
+					{% if user_id == item.user_id %}
+						<a href='{{url_for('editRecipe', category_id=item.category.id, recipe_id=item.id ) }}'>
+							<button type="button" class="btn btn-default delete">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>Edit</button>
+						</a>
+						<a href='{{url_for('deleteRecipe', category_id=item.category.id, recipe_id=item.id ) }}'>
+							<button type="button" class="btn btn-default delete">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Delete</button>
+						</a>
+					{% endif %}
+				</div>
+		</div>
+	</div>
+
+{% endblock %}
